@@ -188,12 +188,19 @@
   (setq inferior-fsharp-program "/usr/local/bin/fsharpi"))
 
 (show-paren-mode 1)
+
+(setq mac-option-modifier 'meta)
+(setq mac-command-modifier 'super)
+
 (setq vc-follow-symlinks t)
 (setq ring-bell-function 'ignore)
 (setq coding-system-for-read 'utf-8)
 (setq coding-system-for-write 'utf-8)
 (setq default-fill-column 80)
+(setq electric-pair-mode t)
+(setq electric-pair-text-pairs '((34 . 34) (40 . 41) (91 . 93) (123 . 125)))
+
 
 ;; Save customizations to custom.el in the init dir
-(setq custom-file (f-join (f-dirname user-init-file) "custom.el"))
+(setq custom-file (f-join (f-dirname user-init-file) (concat "custom-" system-name ".el")))
 (load custom-file)

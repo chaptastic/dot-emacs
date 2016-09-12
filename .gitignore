@@ -3,3 +3,7 @@
 
 # Packaging
 .cask
+
+elpa/
+recentf
+smex-items
