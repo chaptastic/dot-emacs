@@ -24,6 +24,11 @@
 ;; Always install packages if needed
 (setq use-package-always-ensure t)
 
+(when (memq window-system '(mac ns))
+  (use-package exec-path-from-shell
+    :init
+    (exec-path-from-shell-initialize)))
+
 (use-package try
   :defer 2)
 
@@ -39,13 +44,13 @@
 ;;   )
 
 (use-package leuven-theme
-  ;; :config
-  ;; (load-theme 'leuven t)
+  :config
+  (load-theme 'leuven t)
   )
 
 (use-package color-theme-sanityinc-tomorrow
-  :config
-  (load-theme 'sanityinc-tomorrow-day t)
+  ;; :config
+  ;; (load-theme 'sanityinc-tomorrow-day t)
   )
 
 (use-package magit
@@ -59,8 +64,9 @@
   (setq ag-highlight-search t))
 
 (use-package projectile
+  :defer nil
   :config
-  (projectile-mode))
+  (projectile-global-mode))
 
 (use-package perspective
   :config
@@ -80,6 +86,7 @@
 (use-package counsel
   :bind (("M-x" . counsel-M-x)
 	 ("C-x C-f" . counsel-find-file)
+	 ("C-x i" . counsel-imenu)
 	 ("C-h f" . counsel-describe-function)
 	 ("C-h v" . counsel-describe-variable)
 	 ("C-h l" . counsel-load-library)
@@ -97,6 +104,8 @@
 
 (use-package swiper
   :bind (("C-s" . swiper)))
+
+(use-package counsel-projectile)
 
 (use-package avy
   :commands (avy-goto-char avy-goto-line avy-goto-word-1)
@@ -135,6 +144,23 @@
   :config
   (global-git-gutter-mode t))
 
+(use-package crux
+  :bind (("C-S-<return>" . crux-smart-open-line-above)
+	 ("C-<return>" . crux-smart-open-line)
+	 ("M-o" . crux-smart-open-line)
+	 ("C-x 4 t" . crux-transpose-windows)
+	 ("C-c D" . crux-delete-file-and-buffer)
+	 ("C-c d" . crux-duplicate-current-line-or-region)
+	 ("C-c C-r" . crux-rename-file-and-buffer)
+	 ("C-^" . crux-top-join-lines)
+	 ("C-a" . crux-move-beginning-of-line))
+  :defer nil
+  :config
+  (crux-with-region-or-buffer indent-region)
+  (crux-with-region-or-line comment-or-uncomment-region)
+  (crux-with-region-or-line kill-ring-save))
+
+  
 (use-package org)
 (use-package web-mode)
 (use-package yaml-mode)
@@ -149,7 +175,7 @@
   :config
   (add-hook 'ruby-mode-hook 'robe-mode)
   (eval-after-load 'company
-    '(push 'company-robe company-backends)))
+    '(push '(company-robe company-capf company-dabbrev-code company-etags company-keywords) company-backends)))
 
 (use-package company
   :diminish company-mode
@@ -180,7 +206,13 @@
 
 (use-package projectile-rails
   :config
-  (add-hook 'projectile-mode-hook 'projectile-rails-mode))
+  (add-hook 'projectile-mode-hook 'projectile-rails-on))
+
+(use-package rbenv
+  :config
+  (global-rbenv-mode))
+
+(use-package rspec-mode)
 
 (use-package fsharp-mode
   :config
@@ -200,6 +232,8 @@
 (setq electric-pair-mode t)
 (setq electric-pair-text-pairs '((34 . 34) (40 . 41) (91 . 93) (123 . 125)))
 
+(winner-mode t)
+(windmove-default-keybindings)
 
 ;; Save customizations to custom.el in the init dir
 (setq custom-file (f-join (f-dirname user-init-file) (concat "custom-" system-name ".el")))
