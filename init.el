@@ -235,6 +235,10 @@
 (winner-mode t)
 (windmove-default-keybindings)
 
+;; Don't convert to windows line endings
+(setq inhibit-eol-conversion t)
+(setq default-buffer-file-coding-system 'utf-8-unix)
+
 ;; Save customizations to custom.el in the init dir
 (setq custom-file (f-join (f-dirname user-init-file) (concat "custom-" system-name ".el")))
 (load custom-file)
