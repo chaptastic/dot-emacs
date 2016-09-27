@@ -6,6 +6,7 @@
 
 ;; Disable toolbar
 (tool-bar-mode -1)
+(scroll-bar-mode -1)
 
 (setq inhibit-splash-screen t)
 
@@ -39,20 +40,27 @@
   (setq which-key-idle-delay 0.5)
   (which-key-mode))
 
+;; THEMES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 ;; (use-package zenburn-theme
-;; ;;   :config
-;; ;;   (load-theme 'zenburn t)
-;;   )
-
-(use-package leuven-theme
-  :config
-  (load-theme 'leuven t)
-  )
-
+;;   :config
+;;   (load-theme 'zenburn t))
+;; (use-package leuven-theme
+;;   :config
+;;   (load-theme 'leuven t))
+;; (use-package color-theme-modern
+;;   :config
+;;   (load-theme 'cobalt t))
 (use-package color-theme-sanityinc-tomorrow
-  ;; :config
-  ;; (load-theme 'sanityinc-tomorrow-day t)
-  )
+  :config
+  (load-theme 'sanityinc-tomorrow-day t))
+;; (use-package sexy-monochrome-theme
+;;   :config
+;;   (load-theme 'sexy-monochrome t)
+;;   (setq show-paren-style 'expression))
+  
+;; END THEMES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 
 (use-package magit
   :bind (("C-x g" . magit-status)
@@ -67,11 +75,21 @@
 (use-package projectile
   :defer nil
   :config
-  (projectile-global-mode))
+  (projectile-global-mode)
+  ;; (defun maybe-projectile-find-file (arg)
+  ;;   "Find a file with projectile-find-file unless an argument is specified"
+  ;;   (interactive "p")
+  ;;   (if (> arg 1)
+  ;; 	(counsel-find-file)
+  ;;     (projectile-find-file)))
+  ;; (define-key projectile-mode-map (kbd "C-x C-f") 'maybe-projectile-find-file)
+  )
 
 (use-package perspective
   :config
-  (persp-mode))
+  (persp-mode)
+  (face-spec-set 'persp-selected-face
+		 '((t (:inherit mode-line-buffer-id)))))
 
 (use-package persp-projectile)
 
@@ -210,10 +228,15 @@
   (add-hook 'projectile-mode-hook 'projectile-rails-on))
 
 (use-package rbenv
+  :init
+  (setq rbenv-show-active-ruby-in-modeline nil)
   :config
   (global-rbenv-mode))
 
-(use-package rspec-mode)
+(use-package rspec-mode
+  :config
+  (defun rspec-spring-p ()
+    t))
 
 (use-package fsharp-mode
   :config
