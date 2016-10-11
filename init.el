@@ -53,12 +53,12 @@
 ;;   (load-theme 'cobalt t))
 (use-package color-theme-sanityinc-tomorrow
   :config
-  (load-theme 'sanityinc-tomorrow-day t))
+  (load-theme 'sanityinc-tomorrow-eighties t))
 ;; (use-package sexy-monochrome-theme
 ;;   :config
 ;;   (load-theme 'sexy-monochrome t)
 ;;   (setq show-paren-style 'expression))
-  
+
 ;; END THEMES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
@@ -89,7 +89,8 @@
   :config
   (persp-mode)
   (face-spec-set 'persp-selected-face
-		 '((t (:inherit mode-line-buffer-id)))))
+		 '((t (:inherit mode-line-buffer-id))))
+)
 
 (use-package persp-projectile)
 
@@ -179,9 +180,27 @@
   (crux-with-region-or-line comment-or-uncomment-region)
   (crux-with-region-or-line kill-ring-save))
 
-  
+
 (use-package org)
-(use-package web-mode)
+
+(use-package web-mode
+  :init
+  (add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.[agj]sp\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.as[cp]x\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
+
+  (setq web-mode-comment-style 2)
+  (setq web-mode-enable-auto-pairing t)
+  (setq web-mode-enable-current-element-highlight t)
+  (setq web-mode-enable-current-column-highlight t)
+  (face-spec-set 'web-mode-current-element-highlight-face
+		 '((t (:underline t))))
+  )
+
 (use-package yaml-mode)
 (use-package sass-mode)
 (use-package scss-mode
@@ -243,7 +262,34 @@
   (setq fsharp-compiler "/usr/local/bin/fsharpc")
   (setq inferior-fsharp-program "/usr/local/bin/fsharpi"))
 
+(use-package tide
+  :config
+  (add-hook 'before-save-hook 'tide-format-before-save)
+  (defun setup-tide-mode ()
+    (interactive)
+    (tide-setup)
+    (flycheck-mode +1)
+    (setq flycheck-check-syntax-automatically '(save mode-enabled))
+    (eldoc-mode +1)
+    (company-mode +1))
+
+  (eval-after-load 'web-mode
+    '(progn
+       (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
+       (add-hook 'web-mode-hook
+		 (lambda ()
+		   (when (string-equal "tsx" (file-name-extension buffer-file-name))
+		     (setup-tide-mode))))))
+  )
+
+;; (use-package auctex
+;;   :no-require t)
+;; (use-package company-auctex)
+
 (show-paren-mode 1)
+
+(global-whitespace-mode 1)
+(setq whitespace-style '(face trailing empty space-before-tab))
 
 (setq mac-option-modifier 'meta)
 (setq mac-command-modifier 'super)
@@ -259,9 +305,18 @@
 (winner-mode t)
 (windmove-default-keybindings)
 
+;; Remove trailing whitespace
+(add-hook 'prog-mode-hook
+	  (lambda () (add-to-list 'write-file-functions 'delete-trailing-whitespace)))
+
 ;; Don't convert to windows line endings
 (setq inhibit-eol-conversion t)
 (setq default-buffer-file-coding-system 'utf-8-unix)
+
+;; Fix ruby indent
+(setq ruby-deep-indent-paren nil)
+(setq ruby-align-to-stmt-keywords nil)
+(setq ruby-align-chained-calls t)
 
 ;; Save customizations to custom.el in the init dir
 (setq custom-file (locate-user-emacs-file (concat "custom-" system-name ".el")))
