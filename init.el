@@ -244,7 +244,7 @@
 
 (use-package projectile-rails
   :config
-  (add-hook 'projectile-mode-hook 'projectile-rails-on))
+  (add-hook 'find-file-hook 'projectile-rails-on))
 
 (use-package rbenv
   :init
