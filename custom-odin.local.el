@@ -19,7 +19,7 @@
  '(hl-sexp-background-color "#efebe9")
  '(package-selected-packages
    (quote
-    (tide company-auctex auctex sexy-monochrome-theme color-theme-modern crux rspec-mode rbenv counsel-projectile exec-path-from-shell wgrep multiple-cursors leuven-theme smex color-theme-sanityinc-tomorrow git-gutter expand-region magit zenburn-theme scss-mode company-mode flymake-coffee flymake-sass flymake-css flymake-ruby robe robe-mode coffee-mode sass-mode yaml-mode web-mode avy counsel conusel ivy persp-projectile perspective projectile-rails projectile fsharp-mode ag which-key try use-package)))
+    (undo-tree tide company-auctex auctex sexy-monochrome-theme color-theme-modern crux rspec-mode rbenv counsel-projectile exec-path-from-shell wgrep multiple-cursors leuven-theme smex color-theme-sanityinc-tomorrow git-gutter expand-region magit zenburn-theme scss-mode company-mode flymake-coffee flymake-sass flymake-css flymake-ruby robe robe-mode coffee-mode sass-mode yaml-mode web-mode avy counsel conusel ivy persp-projectile perspective projectile-rails projectile fsharp-mode ag which-key try use-package)))
  '(vc-annotate-background nil)
  '(vc-annotate-color-map
    (quote
@@ -47,4 +47,4 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:height 140 :family "PragmataPro")))))
+ '(default ((t (:weight normal :height 120 :width normal :family "PragmataPro")))))

@@ -180,6 +180,9 @@
   (crux-with-region-or-line comment-or-uncomment-region)
   (crux-with-region-or-line kill-ring-save))
 
+(use-package undo-tree
+  :config
+  (global-undo-tree-mode t))
 
 (use-package org)
 
@@ -301,6 +304,8 @@
 (setq default-fill-column 80)
 (setq electric-pair-mode t)
 (setq electric-pair-text-pairs '((34 . 34) (40 . 41) (91 . 93) (123 . 125)))
+
+(global-set-key (kbd "M-;") 'comment-line)
 
 (winner-mode t)
 (windmove-default-keybindings)
