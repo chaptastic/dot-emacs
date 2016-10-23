@@ -45,19 +45,39 @@
 ;; (use-package zenburn-theme
 ;;   :config
 ;;   (load-theme 'zenburn t))
+
 ;; (use-package leuven-theme
 ;;   :config
 ;;   (load-theme 'leuven t))
+
 ;; (use-package color-theme-modern
 ;;   :config
 ;;   (load-theme 'cobalt t))
+
 (use-package color-theme-sanityinc-tomorrow
   :config
-  (load-theme 'sanityinc-tomorrow-eighties t))
+  (load-theme 'sanityinc-tomorrow-blue t))
+
 ;; (use-package sexy-monochrome-theme
 ;;   :config
 ;;   (load-theme 'sexy-monochrome t)
 ;;   (setq show-paren-style 'expression))
+
+;; (use-package borland-blue-theme
+;;   :config
+;;   (load-theme 'borland-blue t))
+
+;; (use-package atom-one-dark-theme
+;;   :config
+;;   (load-theme 'atom-one-dark t))
+
+;; (use-package green-phosphor-theme
+;;   :config
+;;   (load-theme 'green-phosphor t))
+
+;; (use-package material-theme
+;;   :config
+;;   (load-theme 'material t))
 
 ;; END THEMES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -274,16 +294,21 @@
     (flycheck-mode +1)
     (setq flycheck-check-syntax-automatically '(save mode-enabled))
     (eldoc-mode +1)
-    (company-mode +1))
+    (company-mode +1)))
 
-  (eval-after-load 'web-mode
-    '(progn
-       (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
-       (add-hook 'web-mode-hook
-		 (lambda ()
-		   (when (string-equal "tsx" (file-name-extension buffer-file-name))
-		     (setup-tide-mode))))))
-  )
+(eval-after-load 'web-mode
+  '(progn
+     (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
+     (add-hook 'web-mode-hook
+	       (lambda ()
+		 (let ((ext (file-name-extension buffer-file-name)))
+		   (cond ((string-equal "erb" ext)
+			  (setq indent-tabs-mode nil)
+			  (setq web-mode-markup-indent-offset 2)
+			  (setq tab-width 2))
+			 ((string-equal "tsx" ext)
+			  (setup-tide-mode))
+			 ))))))
 
 ;; (use-package auctex
 ;;   :no-require t)
